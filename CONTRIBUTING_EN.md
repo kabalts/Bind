@@ -2,6 +2,12 @@
 
 Thanks for your interest in Bind!
 
+also Bind for windows!
+
+You can check out [Bind for windows](https://gitee.com/kabalts/Bind-for-windows.git) on Gitee
+
+or view the `win` branch on GitHub.
+
 ## Environment Setup
 
 ```bash

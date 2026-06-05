@@ -2,6 +2,12 @@
 
 感谢你对 Bind 项目的关注！
 
+我还尝试了 Bind for windows !
+
+你能在 gitee 中查看 [Bind for windows](https://gitee.com/kabalts/Bind-for-windows.git)
+
+或者在 github 中查看 `win` 分支
+
 ## 环境准备
 
 ```bash
