@@ -14,7 +14,7 @@
 
 ## 快速开始
 
-从 [Releases](https://github.com/kabalts/Bind/releases) 下载编译好的可执行文件，或自行编译：
+从 [Releases](https://gitee.com/kabalts/Bind-for-windows/releases) 下载编译好的可执行文件，或自行编译：
 
 ```powershell
 # 一键启动（服务端 + 客户端）

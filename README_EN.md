@@ -14,7 +14,7 @@ A lightweight relational database built from scratch in C++23, featuring a custo
 
 ## Quick Start
 
-Download pre-built binaries from [Releases](https://github.com/kabalts/Bind/releases), or build from source:
+Download pre-built binaries from [Releases](https://gitee.com/kabalts/Bind-for-windows/releases), or build from source:
 
 ```powershell
 # One-click start (server + client)
