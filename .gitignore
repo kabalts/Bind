@@ -1,0 +1,25 @@
+# Build
+build/
+out/
+cmake-build-*/
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Windows
+*.exe
+*.pdb
+*.ilk
+*.obj
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data
+data/
+test_data/
