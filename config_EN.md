@@ -16,7 +16,7 @@
 | Action | Command | Description |
 |--------|---------|-------------|
 | Build | VS: **Build → Build All**, or `cmake --build` | CMake configure + MSBuild |
-| Start | `.\bind.ps1` | Auto-start server (8888) + client |
+| Start | See below | Manual start |
 
 Build outputs in `out/build/x64-Debug/bin/`:
 
@@ -29,18 +29,6 @@ Clean the `out/` directory before rebuilding.
 
 ## Startup
 
-### One-click start
-
-```powershell
-.\bind.ps1
-```
-
-- Starts `bind_server.exe` (port 8888) and `bind_client.exe`
-- Server window stays running, client window enters interactive mode
-- Ctrl+C / `exit` to quit the client, close the server window to stop
-
-### Manual start
-
 ```powershell
 # Terminal 1: start server
 .\out\build\x64-Debug\bin\bind_server.exe -p 8888
@@ -49,13 +37,15 @@ Clean the `out/` directory before rebuilding.
 .\out\build\x64-Debug\bin\bind_client.exe
 ```
 
+- Server window stays running, client window enters interactive mode
+- Ctrl+C / `exit` to quit the client, close the server window to stop
+
 ## Project Structure
 
 ```
 Bind/
 ├── CMakeLists.txt
 ├── config.md
-├── bind.ps1               # one-click start script
 ├── include/
 │   ├── common/            # ArrayList, LinkedList, String, Json, ResultSet
 │   ├── storage/           # BPlusTree, FileEngine, Table, Database
@@ -137,4 +127,4 @@ Response (failure):
 
 | Scenario | Port |
 |----------|------|
-| Normal use (`bind.ps1`) | 8888 |
+| Normal use | 8888 |

@@ -16,7 +16,7 @@
 | 操作 | 命令 | 说明 |
 |------|------|------|
 | 构建 | VS 中 **生成 → 全部生成**，或命令行 `cmake --build` | CMake 配置 + MSBuild 构建 |
-| 启动 | `.\bind.ps1` | 自动启动服务端 (8888) + 客户端 |
+| 启动 | 见下方 | 手动启动 |
 
 编译产物位于 `out/build/x64-Debug/bin/`：
 
@@ -29,18 +29,6 @@
 
 ## 启停流程
 
-### 一键启动
-
-```powershell
-.\bind.ps1
-```
-
-- 自动启动 `bind_server.exe`（端口 8888）和 `bind_client.exe`
-- 服务端窗口保持运行，客户端窗口进入交互模式
-- Ctrl+C / `exit` 退出客户端，关闭服务端窗口即可停止
-
-### 手动分别启动
-
 ```powershell
 # 终端1：启动服务端
 .\out\build\x64-Debug\bin\bind_server.exe -p 8888
@@ -49,13 +37,15 @@
 .\out\build\x64-Debug\bin\bind_client.exe
 ```
 
+- 服务端窗口保持运行，客户端窗口进入交互模式
+- Ctrl+C / `exit` 退出客户端，关闭服务端窗口即可停止
+
 ## 项目结构
 
 ```
 Bind/
 ├── CMakeLists.txt
 ├── config.md
-├── bind.ps1               # 一键启动脚本
 ├── include/
 │   ├── common/            # ArrayList, LinkedList, String, Json, ResultSet
 │   ├── storage/           # BPlusTree, FileEngine, Table, Database
@@ -137,4 +127,4 @@ Bind/
 
 | 场景 | 端口 |
 |------|------|
-| 正常使用 (`bind.ps1`) | 8888 |
+| 正常使用 | 8888 |
