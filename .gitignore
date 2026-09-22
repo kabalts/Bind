@@ -15,3 +15,6 @@ Thumbs.db
 # Data
 data/
 test_data/
+
+#note
+docs/LearnCppFromBind/

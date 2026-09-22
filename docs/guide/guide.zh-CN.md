@@ -11,23 +11,27 @@
   - POSIX API：`<unistd.h>` `<sys/stat.h>` `<sys/types.h>` `<sys/socket.h>` `<netinet/in.h>` `<arpa/inet.h>` `<netdb.h>` `<dirent.h>` `<fcntl.h>`
   - 无第三方库
 
-## 快速开始
-
-| 操作 | 命令 | 说明 |
-|------|------|------|
-| 编译 | `bash build.sh` | CMake 配置 + make 构建 |
-| 启动 | `bash bind.sh` | 自动启动服务端 (8888) + 客户端 |
-| 测试 | `bash test.sh` | 单元测试 + SQL 集成测试 (9888) |
-
-编译产物位于 `build/bin/`：
-
-| 文件 | 用途 |
-|------|------|
-| `bind_server` | 数据库服务端 |
-| `bind_client` | 命令行客户端 |
-| `bind_test` | 测试可执行文件 |
-
-重新编译前需要先删掉 `build/` 目录（`build.sh` 会自动做这件事）。
+## 构建
+### 安装依赖
+```bash
+sudo apt install g++ cmake make
+```
+### 方式一：使用构建脚本（推荐）
+```bash
+bash build.sh
+```
+### 方式二：手动构建
+```bash
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++
+make -j$(nproc)
+```
+### 编译产物
+| 文件                      | 说明         |
+| ------------------------- | ------------ |
+| `build/bin/bind_server` | 数据库服务端 |
+| `build/bin/bind_client` | 命令行客户端 |
+| `build/bin/bind_test`   | 测试程序     |
 
 ## 启停流程
 
@@ -67,7 +71,6 @@ bash test.sh
 ```
 Bind/
 ├── CMakeLists.txt
-├── config.md
 ├── build.sh              # 编译脚本
 ├── bind.sh               # 一键启动脚本
 ├── test.sh               # 自动化测试脚本
@@ -81,6 +84,13 @@ Bind/
 │   ├── server/           # Server
 │   └── client/           # Client
 ├── src/                  # 对应实现文件
+│   ├── common/
+│   ├── storage/
+│   ├── parser/
+│   ├── executor/
+│   ├── network/
+│   ├── server/
+│   └── client/
 │   ├── main_server.cpp
 │   └── main_client.cpp
 └── tests/

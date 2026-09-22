@@ -11,23 +11,35 @@
   - POSIX API: `<unistd.h>` `<sys/stat.h>` `<sys/types.h>` `<sys/socket.h>` `<netinet/in.h>` `<arpa/inet.h>` `<netdb.h>` `<dirent.h>` `<fcntl.h>`
   - No third-party libraries
 
-## Quick Start
+## Build
 
-| Action | Command | Description |
-|--------|---------|-------------|
-| Build | `bash build.sh` | CMake configure + make build |
-| Start | `bash bind.sh` | Auto-start server (8888) + client |
-| Test | `bash test.sh` | Unit tests + SQL integration tests (9888) |
+### Install dependencies
 
-Build outputs in `build/bin/`:
+```bash
+sudo apt install g++ cmake make
+```
 
-| File | Purpose |
-|------|---------|
-| `bind_server` | Database server |
-| `bind_client` | CLI client |
-| `bind_test` | Test executable |
+### Option 1: Build script (recommended)
 
-Rebuilding requires removing the `build/` directory first (`build.sh` does this automatically).
+```bash
+bash build.sh
+```
+
+### Option 2: Manual build
+
+```bash
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++
+make -j$(nproc)
+```
+
+### Build outputs
+
+| File | Description |
+|------|-------------|
+| `build/bin/bind_server` | Database server |
+| `build/bin/bind_client` | CLI client |
+| `build/bin/bind_test` | Test program |
 
 ## Startup
 
@@ -67,7 +79,6 @@ Two phases:
 ```
 Bind/
 ├── CMakeLists.txt
-├── config.md
 ├── build.sh              # build script
 ├── bind.sh               # one-click start script
 ├── test.sh               # automated test script
@@ -81,6 +92,13 @@ Bind/
 │   ├── server/           # Server
 │   └── client/           # Client
 ├── src/                  # implementation files
+│   ├── common/
+│   ├── storage/
+│   ├── parser/
+│   ├── executor/
+│   ├── network/
+│   ├── server/
+│   └── client/
 │   ├── main_server.cpp
 │   └── main_client.cpp
 └── tests/

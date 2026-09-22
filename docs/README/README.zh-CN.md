@@ -1,99 +1,53 @@
-English | [中文](README.md)
-
+[English](../../README.md) | 中文
 # Bind — Bind Integrates Nested Data
-
-A lightweight relational database built from scratch in C++23, featuring a custom B+ tree storage engine, recursive descent SQL parser, and TCP network protocol.
-
-## Features
-
-- **Custom Storage Engine**: B+ tree index + fixed-length record files, 4KB pages, full disk persistence
-- **Full SQL Support**: DDL (CREATE/DROP/USE) + DML (SELECT/INSERT/UPDATE/DELETE) with recursive descent parser
-- **Primary Key Uniqueness**: Enforced via B+ tree index
-- **Client-Server Architecture**: Length-prefixed frame protocol over TCP, JSON message format
-- **Zero Third-Party Dependencies**: Only C++ standard library + POSIX API; custom implementations of ArrayList, LinkedList, String, Json, etc.
-
-## Quick Start
-
+一个用 C++23 从零构建的轻量级关系型数据库，包含自定义 B+ 树存储引擎、递归下降 SQL 解析器和 TCP 网络协议。[了解更多](../guide/guide.zh-CN.md)
+## 特性
+- **自制存储引擎**：B+ 树索引 + 定长记录文件，4KB 页大小，支持磁盘持久化
+- **完整 SQL 支持**：DDL (CREATE/DROP/USE) + DML (SELECT/INSERT/UPDATE/DELETE)，递归下降解析器
+- **主键唯一约束**：基于 B+ 树索引进阶保证
+- **客户端-服务端架构**：长度前缀帧协议 (TCP)，JSON 格式通信
+- **无第三方依赖**：仅使用 C++ 标准库 + POSIX API，自实现 ArrayList、LinkedList、String、Json 等容器
+## 快速开始
 ```bash
-# Build
+# 编译
 bash build.sh
 
-# Start (server on 8888 + client)
+# 启动（服务端 8888 + 客户端）
 bash bind.sh
 
-# Run tests
+# 运行测试
 bash test.sh
 ```
-
-### Requirements
-
-| Component | Version |
-|-----------|---------|
-| OS | Ubuntu 26.04 LTS (WSL) |
-| Compiler | g++ 15.2.0 |
-| Standard | C++23 |
-| Build Tools | CMake 4.2.3 / make 4.4.1 |
-
-## Build
-
-### Install dependencies
-
-```bash
-sudo apt install g++ cmake make
-```
-
-### Option 1: Build script (recommended)
-
-```bash
-bash build.sh
-```
-
-### Option 2: Manual build
-
-```bash
-mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++
-make -j$(nproc)
-```
-
-### Build outputs
-
-| File | Description |
-|------|-------------|
-| `build/bin/bind_server` | Database server |
-| `build/bin/bind_client` | CLI client |
-| `build/bin/bind_test` | Test program |
-
-## Supported SQL
-
+### 环境要求
+| 组件     | 版本                     |
+| -------- | ------------------------ |
+| 操作系统 | Ubuntu 26.04 LTS (WSL)   |
+| 编译器   | g++ 15.2.0               |
+| 标准     | C++23                    |
+| 构建工具 | CMake 4.2.3 / make 4.4.1 |
+## 支持的 SQL
 ```sql
--- Database operations
+-- 数据库操作
 CREATE DATABASE mydb;
 USE mydb;
 DROP DATABASE mydb;
 
--- Table operations
+-- 表操作
 CREATE TABLE users (id int primary, name string, age int);
 DROP TABLE users;
 
--- CRUD
+-- 增删改查
 INSERT INTO users VALUES (1, 'Alice', 25);
 SELECT * FROM users WHERE age > 20;
 SELECT id, name FROM users;
 UPDATE users SET age = 26 WHERE id = 1;
 DELETE FROM users WHERE id = 1;
 ```
-
-### Data Types
-
+### 数据类型
 `int` `double` `string` `bool`
-
-### WHERE Operators
-
+### WHERE 运算符
 `=` `!=` `<>` `<` `<=` `>` `>=`
-
-## Architecture
-
+## 架构
 ```
 ┌──────────────┐     TCP (length-prefix + JSON)    ┌──────────────┐
 │  Client      │ ◄────────────────────────────────►│  Server      │
@@ -121,53 +75,24 @@ DELETE FROM users WHERE id = 1;
                                     │   (索引持久化)     │ │   (数据持久化)     │
                                     └───────────────────┘ └───────────────────┘
 ```
-
-## Data Storage
-
+## 数据存储
 ```
 data/
-└── mydb/                  # one directory per database
-    ├── users.dat          # fixed-length records: 261 bytes/row
-    ├── users.idx          # B+ tree index: 4KB/page
-    └── users.meta         # table schema metadata
+└── mydb/                  # 每个数据库一个目录
+    ├── users.dat          # 定长记录：261 字节/条
+    ├── users.idx          # B+ 树索引：4KB/页
+    └── users.meta         # 表结构元数据
 ```
+## 通信协议
+4 字节大端序长度头 + JSON 正文。
 
-## Protocol
-
-4-byte big-endian length header + JSON payload.
-
-Request:
+请求示例：
 ```json
 {"command": "sql", "sql": "select * from users", "db": "mydb"}
 ```
-
-Response:
+响应示例：
 ```json
 {"status": "ok", "result": {"columns": ["id", "name"], "rows": [[1, "Alice"]]}}
 ```
-
-## Project Structure
-
-```
-Bind/
-├── CMakeLists.txt
-├── build.sh                    # build script
-├── bind.sh                     # one-click start
-├── test.sh                     # automated test suite
-├── test_samples.sql            # SQL integration test cases
-├── include/
-│   ├── common/                 # ArrayList, LinkedList, String, Json, ResultSet
-│   ├── storage/                # BPlusTree, FileEngine, Table, Database
-│   ├── parser/                 # SQLParser
-│   ├── executor/               # Executor
-│   ├── network/                # TcpSocket
-│   ├── server/                 # Server
-│   └── client/                 # Client
-├── src/                        # implementation files
-└── tests/
-    └── test_main.cpp           # C++ unit tests
-```
-
 ## License
-
-[MIT](LICENSE) © kabalts
+[MIT](../../LICENSE) © kabalts
