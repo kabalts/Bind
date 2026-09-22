@@ -11,21 +11,29 @@
   - Windows API：`<winsock2.h>` `<ws2tcpip.h>` `<windows.h>`
   - 无第三方库
 
-## 快速开始
+## 构建
 
-| 操作 | 命令 | 说明 |
-|------|------|------|
-| 构建 | VS 中 **生成 → 全部生成**，或命令行 `cmake --build` | CMake 配置 + MSBuild 构建 |
-| 启动 | 见下方 | 手动启动 |
+### 安装依赖
 
-编译产物位于 `out/build/x64-Debug/bin/`：
+安装 [Visual Studio 2026](https://visualstudio.microsoft.com/)，勾选 **"使用 C++ 的桌面开发"** 工作负载，以及 [CMake](https://cmake.org/download/)。
 
-| 文件 | 用途 |
-|------|------|
-| `bind_server.exe` | 数据库服务端 |
-| `bind_client.exe` | 命令行客户端 |
+### 在 Visual Studio 中构建
 
-重建时需要先清理 `out/` 目录。
+直接用 VS 打开项目文件夹，CMakeLists.txt 会被自动识别，然后 **生成 → 全部生成**。
+
+### 命令行构建
+
+```powershell
+cmake -B out/build/x64-Debug
+cmake --build out/build/x64-Debug
+```
+
+### 编译产物
+
+| 文件                      | 说明         |
+| ------------------------- | ------------ |
+| `out/build/x64-Debug/bin/bind_server.exe` | 数据库服务端 |
+| `out/build/x64-Debug/bin/bind_client.exe` | 命令行客户端 |
 
 ## 启停流程
 
@@ -45,7 +53,6 @@
 ```
 Bind/
 ├── CMakeLists.txt
-├── config.md
 ├── include/
 │   ├── common/            # ArrayList, LinkedList, String, Json, ResultSet
 │   ├── storage/           # BPlusTree, FileEngine, Table, Database
@@ -55,6 +62,13 @@ Bind/
 │   ├── server/            # Server
 │   └── client/            # Client
 ├── src/                   # 对应实现文件
+│   ├── common/
+│   ├── storage/
+│   ├── parser/
+│   ├── executor/
+│   ├── network/
+│   ├── server/
+│   └── client/
 │   ├── main_server.cpp
 │   └── main_client.cpp
 ```

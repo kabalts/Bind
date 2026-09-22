@@ -11,21 +11,29 @@
   - Windows API: `<winsock2.h>` `<ws2tcpip.h>` `<windows.h>`
   - No third-party libraries
 
-## Quick Start
+## Build
 
-| Action | Command | Description |
-|--------|---------|-------------|
-| Build | VS: **Build → Build All**, or `cmake --build` | CMake configure + MSBuild |
-| Start | See below | Manual start |
+### Install dependencies
 
-Build outputs in `out/build/x64-Debug/bin/`:
+Install [Visual Studio 2026](https://visualstudio.microsoft.com/) with the **"Desktop development with C++"** workload, and [CMake](https://cmake.org/download/).
 
-| File | Purpose |
-|------|---------|
-| `bind_server.exe` | Database server |
-| `bind_client.exe` | CLI client |
+### Build in Visual Studio
 
-Clean the `out/` directory before rebuilding.
+Open the project folder directly in VS — CMakeLists.txt will be detected automatically. Then **Build → Build All**.
+
+### Command-line build
+
+```powershell
+cmake -B out/build/x64-Debug
+cmake --build out/build/x64-Debug
+```
+
+### Build outputs
+
+| File | Description |
+|------|-------------|
+| `out/build/x64-Debug/bin/bind_server.exe` | Database server |
+| `out/build/x64-Debug/bin/bind_client.exe` | CLI client |
 
 ## Startup
 
@@ -45,7 +53,6 @@ Clean the `out/` directory before rebuilding.
 ```
 Bind/
 ├── CMakeLists.txt
-├── config.md
 ├── include/
 │   ├── common/            # ArrayList, LinkedList, String, Json, ResultSet
 │   ├── storage/           # BPlusTree, FileEngine, Table, Database
@@ -55,6 +62,13 @@ Bind/
 │   ├── server/            # Server
 │   └── client/            # Client
 ├── src/                   # implementation files
+│   ├── common/
+│   ├── storage/
+│   ├── parser/
+│   ├── executor/
+│   ├── network/
+│   ├── server/
+│   └── client/
 │   ├── main_server.cpp
 │   └── main_client.cpp
 ```

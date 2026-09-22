@@ -9,6 +9,7 @@ cmake-build-*/
 .idea/
 *.swp
 *.swo
+CMakeSettings.json
 
 # Windows
 *.exe

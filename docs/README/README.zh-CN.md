@@ -1,72 +1,43 @@
-English | [中文](README.md)
+[English](../../README.md) | 中文
 
 # Bind — Bind Integrates Nested Data
 
-A lightweight relational database built from scratch in C++23, featuring a custom B+ tree storage engine, recursive descent SQL parser, and TCP network protocol.
+一个用 C++23 从零构建的轻量级关系型数据库，包含自定义 B+ 树存储引擎、递归下降 SQL 解析器和 TCP 网络协议。[了解更多](../guide/guide.zh-CN.md)
 
-## Features
+## 特性
 
-- **Custom Storage Engine**: B+ tree index + fixed-length record files, 4KB pages, full disk persistence
-- **Full SQL Support**: DDL (CREATE/DROP/USE) + DML (SELECT/INSERT/UPDATE/DELETE) with recursive descent parser
-- **Primary Key Uniqueness**: Enforced via B+ tree index
-- **Client-Server Architecture**: Length-prefixed frame protocol over TCP, JSON message format
-- **Zero Third-Party Dependencies**: Only C++ standard library + Windows API; custom implementations of ArrayList, LinkedList, String, Json, etc.
+- **自制存储引擎**：B+ 树索引 + 定长记录文件，4KB 页大小，支持磁盘持久化
+- **完整 SQL 支持**：DDL (CREATE/DROP/USE) + DML (SELECT/INSERT/UPDATE/DELETE)，递归下降解析器
+- **主键唯一约束**：基于 B+ 树索引进阶保证
+- **客户端-服务端架构**：长度前缀帧协议 (TCP)，JSON 格式通信
+- **无第三方依赖**：仅使用 C++ 标准库 + Windows API，自实现 ArrayList、LinkedList、String、Json 等容器
 
-## Quick Start
+## 快速开始
 
-Download pre-built binaries from [Releases](https://gitee.com/kabalts/Bind-for-windows/releases), or build from source:
+从 [Releases](https://github.com/kabalts/Bind/releases) 下载编译好的可执行文件，或自行编译。
 
-```powershell
-# One-click start (server + client)
-.\bind.ps1
-```
+### 环境要求
 
-### Requirements
+| 组件     | 版本                     |
+| -------- | ------------------------ |
+| 操作系统 | Windows 11            |
+| 编译器   | MSVC (Visual Studio 2026)|
+| 标准     | C++23                    |
+| 构建工具 | CMake 3.15+              |
 
-| Component | Version |
-|-----------|---------|
-| OS | Windows 11 |
-| Compiler | MSVC (Visual Studio 2026) |
-| Standard | C++23 |
-| Build Tools | CMake 3.15+ |
-
-## Build
-
-### Install dependencies
-
-Install [Visual Studio 2026](https://visualstudio.microsoft.com/) with the **"Desktop development with C++"** workload, and [CMake](https://cmake.org/download/).
-
-### Build in Visual Studio
-
-Open the project folder directly in VS — CMakeLists.txt will be detected automatically. Then **Build → Build All**.
-
-### Command-line build
-
-```powershell
-cmake -B out/build/x64-Debug
-cmake --build out/build/x64-Debug
-```
-
-### Build outputs
-
-| File | Description |
-|------|-------------|
-| `out/build/x64-Debug/bin/bind_server.exe` | Database server |
-| `out/build/x64-Debug/bin/bind_client.exe` | CLI client |
-
-## Supported SQL
+## 支持的 SQL
 
 ```sql
--- Database operations
+-- 数据库操作
 CREATE DATABASE mydb;
 USE mydb;
 DROP DATABASE mydb;
 
--- Table operations
+-- 表操作
 CREATE TABLE users (id int primary, name string, age int);
 DROP TABLE users;
 
--- CRUD
+-- 增删改查
 INSERT INTO users VALUES (1, 'Alice', 25);
 SELECT * FROM users WHERE age > 20;
 SELECT id, name FROM users;
@@ -74,15 +45,15 @@ UPDATE users SET age = 26 WHERE id = 1;
 DELETE FROM users WHERE id = 1;
 ```
 
-### Data Types
+### 数据类型
 
 `int` `double` `string` `bool`
 
-### WHERE Operators
+### WHERE 运算符
 
 `=` `!=` `<>` `<` `<=` `>` `>=`
 
-## Architecture
+## 架构
 
 ```
 ┌──────────────┐     TCP (length-prefix + JSON)    ┌──────────────┐
@@ -108,51 +79,36 @@ DELETE FROM users WHERE id = 1;
                                                 │                 │
                                     ┌───────────┴───────┐ ┌───────┴───────────┐
                                     │    BPlusTree      │ │    FileEngine     │
-                                    │   (index)         │ │   (data)          │
+                                    │   (索引持久化)     │ │   (数据持久化)     │
                                     └───────────────────┘ └───────────────────┘
 ```
 
-## Data Storage
+## 数据存储
 
 ```
 data/
-└── mydb/                  # one directory per database
-    ├── users.dat          # fixed-length records: 261 bytes/row
-    ├── users.idx          # B+ tree index: 4KB/page
-    └── users.meta         # table schema metadata
+└── mydb/                  # 每个数据库一个目录
+    ├── users.dat          # 定长记录：261 字节/条
+    ├── users.idx          # B+ 树索引：4KB/页
+    └── users.meta         # 表结构元数据
 ```
 
-## Protocol
+## 通信协议
 
-4-byte big-endian length header + JSON payload.
+4 字节大端序长度头 + JSON 正文。
 
-Request:
+请求示例：
+
 ```json
 {"command": "sql", "sql": "select * from users", "db": "mydb"}
 ```
 
-Response:
+响应示例：
+
 ```json
 {"status": "ok", "result": {"columns": ["id", "name"], "rows": [[1, "Alice"]]}}
 ```
 
-## Project Structure
-
-```
-Bind/
-├── CMakeLists.txt
-├── bind.ps1                     # one-click start (server + client)
-├── include/
-│   ├── common/                  # ArrayList, LinkedList, String, Json, ResultSet
-│   ├── storage/                 # BPlusTree, FileEngine, Table, Database
-│   ├── parser/                  # SQLParser
-│   ├── executor/                # Executor
-│   ├── network/                 # TcpSocket
-│   ├── server/                  # Server
-│   └── client/                  # Client
-├── src/                         # implementation files
-```
-
 ## License
 
-[MIT](LICENSE) © kabalts
+[MIT](../../LICENSE) © kabalts
